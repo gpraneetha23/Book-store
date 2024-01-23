@@ -4,23 +4,23 @@ pipeline {
      }
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockeruser')
-        registry = "gpraneetha23/book-store"
+        registry = "gpraneetha/book-store"
     }
     stages{
         stage('Docker Build') {
             steps {
-                sh 'docker build -t gpraneetha23/book-store .'
+                sh 'docker build -t gpraneetha/book-store .'
               }
           }
         stage('Docker Login & Push') {
             steps {
 		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker push gpraneetha23/book-store'
+                sh 'docker push gpraneetha/book-store'
               }
           }
         stage('Remove Docker Images') {
             steps {
-                sh 'docker rmi -f gpraneetha23/book-store'
+                sh 'docker rmi -f gpraneetha/book-store'
               }
           }
         stage('Docker Network') {
@@ -54,7 +54,7 @@ pipeline {
                     if (existingBookContainer) {
                         sh "docker rm -f ${existingBookContainer}"
                     }
-                    sh 'docker run -dt --name book --network booknetwork -p 80:80 -e DB_SERVERNAME=mysql -e DB_USERNAME=root -e DB_PASSWORD=Qwerty@123 -e DB_NAME=mkbook gpraneetha23/book-store'
+                    sh 'docker run -dt --name book --network booknetwork -p 80:80 -e DB_SERVERNAME=mysql -e DB_USERNAME=root -e DB_PASSWORD=Qwerty@123 -e DB_NAME=mkbook gpraneetha/book-store'
                 }
             }
         }
